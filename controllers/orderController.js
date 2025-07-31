@@ -2,18 +2,14 @@ import Order from '../models/Order1.js';
 import Customer from '../models/Customer1.js';
 import Item from '../models/Items.js';
 
-// ✅ 1. Place a new order
 export const placeOrder = async (req, res) => {
   const { customerId, items } = req.body;
 
   try {
-    // Validate customer
     const customer = await Customer.findById(customerId);
     if (!customer) {
       return res.status(404).json({ error: 'Customer not found' });
     }
-
-    // Optionally validate items (ensure they exist)
     for (const entry of items) {
       const itemExists = await Item.findById(entry.itemId);
       if (!itemExists) {
